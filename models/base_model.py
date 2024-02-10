@@ -10,29 +10,29 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         giv_time = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
-        self.logged = datetime.today()
-        self.changed = datetime.today()
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
 
         if len(kwargs) != 0:
             for i, m in kwargs.items():
-                if i == "logged" or i == "changed":
-                    self.__dict__[i] = datetime.strptime(m, giv_time)
+                if i == 'created_at' or i == 'updated_at':
+                    setattr(self, i, datetime.strptime(m, giv_time))
                 else:
-                    self.__dict__[i] = m
+                    setattr(self, i, m)
         else:
-            models.storage.new(self)
+            models.storage.add_new_object(self)
 
     def save(self):
-        self.changed = datetime.today()
-        models.storage.save()
+        self.updated_at = datetime.now()
+        models.storage.save_to_file()
 
     def to_dict(self):
-        giv_dict = self.__dict__.copy()
-        giv_dict["created_at"] = self.logged.isoformat()
-        giv_dict["updated_at"] = self.changed.isoformat()
-        giv_dict["__class__"] = self.__class__.__name__
-        return give_dict
+        obj_dict = self.__dict__.copy()
+        obj_dict["created_at"] = self.created_at.isoformat()
+        obj_dict["updated_at"] = self.updated_at.isoformat()
+        obj_dict["__class__"] = self.__class__.__name__
+        return obj_dict
 
     def __str__(self):
-        class_name = self.__class__.__name__
-        return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
+        name_c = self.__class__.__name__
+        return "[{}] ({}) {}".format(name_c, self.id, self.__dict__)
