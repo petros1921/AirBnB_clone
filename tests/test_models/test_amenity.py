@@ -84,8 +84,8 @@ class TestAmenityInstantiation(unittest.TestCase):
         with self.assertRaises(TypeError):
             Amenity(id=None, created_at=None, updated_at=None)
 
+
 class TestAmenitySave(unittest.TestCase):
-    """Unittests for testing save method of the Amenity class."""
 
     @classmethod
     def setUpClass(cls):
@@ -134,8 +134,8 @@ class TestAmenitySave(unittest.TestCase):
         with open("file.json", "r") as f:
             self.assertIn(amenity_id, f.read())
 
+
 class TestAmenityToDict(unittest.TestCase):
-    """Unittests for testing to_dict method of the Amenity class."""
 
     def test_to_dict_type(self):
         self.assertTrue(dict, type(Amenity().to_dict()))
@@ -182,6 +182,7 @@ class TestAmenityToDict(unittest.TestCase):
         amenity = Amenity()
         with self.assertRaises(TypeError):
             amenity.to_dict(None)
+
 
 if __name__ == "__main__":
     unittest.main()

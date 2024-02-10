@@ -138,7 +138,6 @@ class TestBaseModelSave(unittest.TestCase):
             self.assertIn(base_model_id, f.read())
 
 class TestBaseModelToDict(unittest.TestCase):
-    """Unittests for testing to_dict method of the BaseModel class."""
 
     def test_to_dict_type(self):
         base_model = BaseModel()
