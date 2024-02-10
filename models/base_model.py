@@ -7,7 +7,6 @@ from datetime import datetime
 
 class BaseModel:
 
-    
     def __init__(self, *args, **kwargs):
         giv_time = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
