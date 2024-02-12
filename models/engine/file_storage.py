@@ -19,6 +19,7 @@ class_mapping = {
     "User": User
 }
 
+
 class FileStorage:
     file_path = "file.json"
     objects_dict = {}
@@ -47,4 +48,3 @@ class FileStorage:
                 self.objects_dict[key] = class_mapping[class_name](**value)
         except Exception as e:
             print("Error reloading from file:", e)
-
