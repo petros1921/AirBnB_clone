@@ -62,12 +62,12 @@ class HBNBConsole(cmd.Cmd):
         }
         match = re.search(r"\.", arguments)
         if match is not None:
-            arg_list = [arguments[:match.span()[0]], arguments[match.span()[1]:]]
-            match = re.search(r"\((.*?)\)", arg_list[1])
+            lists = [arguments[:match.span()[0]], arguments[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", lists[1])
             if match is not None:
-                command = [arg_list[1][:match.span()[0]], match.group()[1:-1]]
+                command = [lists[1][:match.span()[0]], match.group()[1:-1]]
                 if command[0] in argument_dict.keys():
-                    call = "{} {}".format(arg_list[0], command[1])
+                    call = "{} {}".format(lists[0], command[1])
                     return argument_dict[command[0]](call)
         print("*** Unknown syntax: {}".format(arguments))
         return False
@@ -168,7 +168,11 @@ class HBNBConsole(cmd.Cmd):
             return False
         if len(arg_list) == 3:
             try:
+                type(eval(argl[2])) != dict
+            except NameError:
+                print("** value missing **")
+                return False
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
