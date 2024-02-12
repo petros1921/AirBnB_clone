@@ -17,10 +17,16 @@ class BaseModel:
             for i, m in kwargs.items():
                 if i == 'created_at' or i == 'updated_at':
                     setattr(self, i, datetime.strptime(m, giv_time))
+                elif i == '__class__':
+                    self.__class__ = getattr(models, m)
                 else:
                     setattr(self, i, m)
         else:
             models.storage.add_new_object(self)
+
+    def __str__(self):
+        name_c = self.__class__.__name__
+        return "[{:s}] ({:s}) {}".format(name_c, self.id, self.__dict__)
 
     def save(self):
         self.updated_at = datetime.now()
@@ -32,7 +38,3 @@ class BaseModel:
         obj_dict["updated_at"] = self.updated_at.isoformat()
         obj_dict["__class__"] = self.__class__.__name__
         return obj_dict
-
-    def __str__(self):
-        name_c = self.__class__.__name__
-        return "[{}] ({}) {}".format(name_c, self.id, self.__dict__)
