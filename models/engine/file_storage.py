@@ -19,6 +19,7 @@ class_mapping = {
     "User": User
 }
 
+
 class FileStorage:
     file_path = "file.json"
     objects_dict = {}
@@ -40,11 +41,9 @@ class FileStorage:
 
     def reload_from_file(self):
         try:
-            with open(self.file_path, 'r') as file:
-                json_data = json.load(file)
-            for key, value in json_data.items():
-                class_name = value["__class__"]
-                self.objects_dict[key] = class_mapping[class_name](**value)
-        except Exception as e:
-            print("Error reloading from file:", e)
-
+            with open(self.file_path, 'r') as f:
+                jo = json.load(f)
+            for key in jo:
+                self.objects_dict[key] = classes[jo[key]["__class__"]](**jo[key])
+        except:
+            pass
