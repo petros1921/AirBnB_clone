@@ -55,9 +55,9 @@ class HBNBCommand(cmd.Cmd):
 
         argument_dict = {
             "all": self.do_list_all,
-            "show": self.do_show_object,
-            "destroy": self.do_destroy_object,
-            "count": self.do_count_objects,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count_object,
             "update": self.do_update_object
         }
         match = re.search(r"\.", arguments)
@@ -86,7 +86,7 @@ class HBNBCommand(cmd.Cmd):
         arg_list = parse_arguments(arguments)
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0] not in HBNBConsole.__classes:
+        elif arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
             print(eval(arg_list[0])().id)
@@ -98,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
         obj_dict = storage.all()
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0] not in HBNBConsole.__classes:
+        elif arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(arg_list) == 1:
             print("** instance id missing **")
@@ -113,7 +113,7 @@ class HBNBCommand(cmd.Cmd):
         obj_dict = storage.all()
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0] not in HBNBConsole.__classes:
+        elif arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(arg_list) == 1:
             print("** instance id missing **")
@@ -126,7 +126,7 @@ class HBNBCommand(cmd.Cmd):
     def do_list_all(self, arguments):
 
         arg_list = parse_arguments(arguments)
-        if len(arg_list) > 0 and arg_list[0] not in HBNBConsole.__classes:
+        if len(arg_list) > 0 and arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
             obj_list = []
@@ -137,7 +137,7 @@ class HBNBCommand(cmd.Cmd):
                     obj_list.append(obj.__str__())
             print(obj_list)
 
-    def do_count_objects(self, arguments):
+    def do_count_object(self, arguments):
 
         arg_list = parse_arguments(arguments)
         count = 0
@@ -154,7 +154,7 @@ class HBNBCommand(cmd.Cmd):
         if len(arg_list) == 0:
             print("** class name missing **")
             return False
-        if arg_list[0] not in HBNBConsole.__classes:
+        if arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return False
         if len(arg_list) == 1:
