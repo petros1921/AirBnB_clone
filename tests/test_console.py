@@ -32,6 +32,7 @@ class TestHBNBCommandPrompting(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd(""))
             self.assertEqual("", output.getvalue().strip())
 
+
 class TestHBNBCommandHelp(unittest.TestCase):
     """Unittests for testing help messages of the HBNB command interpreter."""
 
@@ -59,7 +60,7 @@ class TestHBNBCommandHelp(unittest.TestCase):
     def test_help_show(self):
         expected_help_message = (
                 "Usage: show <class> <id> or <class>.show(<id>)\n"
-                "Display the string representation of a class instance of a given id."
+                "Display the string representation of a class instance of id"
                 )
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help show"))
@@ -77,35 +78,34 @@ class TestHBNBCommandHelp(unittest.TestCase):
     def test_help_all(self):
         expected_help_message = (
                 "Usage: all or all <class> or <class>.all()\n"
-                "Display string representations of all instances of a given class.\n"
+                "Display string representations of all instances of a class.\n"
                 "If no class is specified, displays all instantiated objects."
                 )
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help all"))
             self.assertEqual(expected_help_message, output.getvalue().strip())
 
-
     def test_help_count(self):
         help_text = ("Usage: count <class> or <class>.count()\n "
-                "Retrieve the number of instances of a given class.")
+            "Retrieve the number of instances of a given class.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help count"))
             self.assertEqual(help_text, output.getvalue().strip())
 
     def test_help_update(self):
-        help_text = ("Usage: update <class> <id> <attribute_name> <attribute_value> or"
-                "\n       <class>.update(<id>, <attribute_name>, <attribute_value"
-                ">) or\n       <class>.update(<id>, <dictionary>)\n        "
-                "Update a class instance of a given id by adding or updating\n   "
-                "a given attribute key/value pair or dictionary.")
+        help_text = ("Usage: update <class> <id> <attribute_name> or"
+                   "\n       <class>.update(<id>, <attribute_name>, <attribute_value"
+                   " or\n       <class>.update(<id>, <dictionary>)\n        "
+                   "Update a class instance of a given id by adding\n   "
+                   "a given attribute key/value pair or dictionary.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help update"))
             self.assertEqual(help_text, output.getvalue().strip())
 
     def test_help(self):
         help_text = ("Documented commands (type help <topic>):\n"
-                "========================================\n"
-                "EOF  all  count  create  destroy  help  quit  show  update")
+                   "========================================\n"
+                   "EOF  all  count  create  destroy  help  quit  show  update")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help"))
             self.assertEqual(help_text, output.getvalue().strip())
@@ -121,6 +121,7 @@ class TestHBNBCommandExit(unittest.TestCase):
     def test_EOF_exits(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertTrue(HBNBCommand().onecmd("EOF"))
+
 
 class TestHBNBCommandCreate(unittest.TestCase):
     """Unittests for testing create from the HBNB command interpreter."""
@@ -300,9 +301,9 @@ class TestHBNBCommandShow(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("show User 1"))
             self.assertEqual(correct, output.getvalue().strip())
-        with patch("sys.stdout", newThis is a modified version of the code you provided, with the variable names changed:
 
-```python
+
+
 class TestHBNBCommandShow(unittest.TestCase):
     """Unittests for testing show from the HBNB command interpreter"""
 
