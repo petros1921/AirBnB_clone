@@ -24,8 +24,8 @@ class FileStorage:
     file_path = "file.json"
     objects_dict = {}
 
-    def get_all_objects(self):
-        return self.objects_dict
+    def all(self):
+        return FileStorage.objects_dict
 
     def add_new_object(self, obj):
         if obj is not None:
