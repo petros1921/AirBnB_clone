@@ -16,11 +16,9 @@ class BaseModel:
         if len(kwargs) != 0:
             for i, m in kwargs.items():
                 if i == 'created_at' or i == 'updated_at':
-                    setattr(self, i, datetime.strptime(m, giv_time))
-                elif i == '__class__':
-                    self.__class__ = getattr(models, m)
+                    self.__dict__[i] = datetime.strptime(m, giv_time)
                 else:
-                    setattr(self, i, m)
+                    self.__dict__[i] = m
         else:
             models.storage.add_new_object(self)
 
