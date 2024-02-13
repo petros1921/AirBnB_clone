@@ -45,5 +45,5 @@ class FileStorage:
                 jo = json.load(f)
             for k in jo:
                 FileStorage.objects_dict[k] = classes[jo[k]["__class__"]](**jo[k])
-        except FileNotFoundError:
-            return
+        except:
+            pass
