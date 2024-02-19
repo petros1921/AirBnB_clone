@@ -30,20 +30,20 @@ class FileStorage:
     def add_new_object(self, obj):
         if obj is not None:
             key = obj.__class__.__name__ + "." + obj.id
-            self.objects_dict[key] = obj
+            FileStorage.objects_dict[key] = obj
 
-    def save_to_file(self):
+    def save(self):
         json_objects = {}
-        for key, obj in self.objects_dict.items():
+        for key, obj in FileStorage.objects_dict.items():
             json_objects[key] = obj.to_dict()
-        with open(self.file_path, 'w') as file:
+        with open(FileStorage.file_path, 'w') as file:
             json.dump(json_objects, file)
 
     def reload_from_file(self):
         try:
-            with open(self.file_path, 'r') as f:
+            with open(FileStorage.file_path, 'r') as f:
                 jo = json.load(f)
-            for key in jo:
-                self.objects_dict[key] = classes[jo[key]["__class__"]](**jo[key])
+            for k in jo:
+                FileStorage.objects_dict[k] = classes[jo[k]["__class__"]](**jo[k])
         except:
             pass

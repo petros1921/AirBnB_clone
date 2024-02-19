@@ -17,9 +17,9 @@ from models.review import Review
 
 
 def parse_arguments(arguments):
-    curly_braces = re.search(r"\{(.*?)\}", arguments)
+    curly_bra = re.search(r"\{(.*?)\}", arguments)
     brackets = re.search(r"\[(.*?)\]", arguments)
-    if curly_braces is None:
+    if curly_bra is None:
         if brackets is None:
             return [item.strip(",") for item in split(arguments)]
         else:
@@ -30,11 +30,11 @@ def parse_arguments(arguments):
     else:
         lexer = split(arguments[:curly_braces.span()[0]])
         ret_list = [item.strip(",") for item in lexer]
-        ret_list.append(curly_braces.group())
+        ret_list.append(curly_bra.group())
         return ret_list
 
 
-class HBNBConsole(cmd.Cmd):
+class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
     __classes = {
@@ -55,9 +55,9 @@ class HBNBConsole(cmd.Cmd):
 
         argument_dict = {
             "all": self.do_list_all,
-            "show": self.do_show_object,
-            "destroy": self.do_destroy_object,
-            "count": self.do_count_objects,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count_object,
             "update": self.do_update_object
         }
         match = re.search(r"\.", arguments)
@@ -86,7 +86,7 @@ class HBNBConsole(cmd.Cmd):
         arg_list = parse_arguments(arguments)
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0] not in HBNBConsole.__classes:
+        elif arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
             print(eval(arg_list[0])().id)
@@ -98,7 +98,7 @@ class HBNBConsole(cmd.Cmd):
         obj_dict = storage.all()
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0] not in HBNBConsole.__classes:
+        elif arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(arg_list) == 1:
             print("** instance id missing **")
@@ -113,7 +113,7 @@ class HBNBConsole(cmd.Cmd):
         obj_dict = storage.all()
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0] not in HBNBConsole.__classes:
+        elif arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(arg_list) == 1:
             print("** instance id missing **")
@@ -126,7 +126,7 @@ class HBNBConsole(cmd.Cmd):
     def do_list_all(self, arguments):
 
         arg_list = parse_arguments(arguments)
-        if len(arg_list) > 0 and arg_list[0] not in HBNBConsole.__classes:
+        if len(arg_list) > 0 and arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
             obj_list = []
@@ -137,7 +137,7 @@ class HBNBConsole(cmd.Cmd):
                     obj_list.append(obj.__str__())
             print(obj_list)
 
-    def do_count_objects(self, arguments):
+    def do_count_object(self, arguments):
 
         arg_list = parse_arguments(arguments)
         count = 0
@@ -154,7 +154,7 @@ class HBNBConsole(cmd.Cmd):
         if len(arg_list) == 0:
             print("** class name missing **")
             return False
-        if arg_list[0] not in HBNBConsole.__classes:
+        if arg_list[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return False
         if len(arg_list) == 1:
@@ -173,6 +173,23 @@ class HBNBConsole(cmd.Cmd):
                 print("** value missing **")
                 return False
 
+        if len(arg_list) == 4:
+            obj_l = objdict["{}.{}".format(arg_list[0], arg_list[1])]
+            if arg_list[2] in obj_l.__class__.__dict__.keys():
+                valtype = type(obj_l.__class__.__dict__[argl[2]])
+                obj_l.__dict__[argl[2]] = valtype(argl[3])
+            else:
+                obj_l.__dict__[arg_list[2]] = arg_list[3]
+        elif type(eval(arg_list[2])) == dict:
+            obj_l = objdict["{}.{}".format(arg_listl[0], arg_list[1])]
+            for k, v in eval(argl[2]).items():
+                if (k in obj_l.__class__.__dict__.keys() and
+                        type(obj_l.__class__.__dict__[k]) in {str, int, float}):
+                    valtype = type(obj_l.__class__.__dict__[k])
+                    obj_l.__dict__[k] = valtype(v)
+                else:
+                    obj_l.__dict__[k] = v
+        storage.save()
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
